@@ -36,3 +36,18 @@ func TestGetBalance(t *testing.T) {
 		fmt.Println("balance:", balance)
 	})
 }
+
+func TestGetTransaction(t *testing.T) {
+	Convey("Test GetTransaction", t, func() {
+		keyPath := "/Users/jeff.wu/.config/solana/id.json"
+		client, err := NewSolClient(context.Background(), keyPath)
+		So(err, ShouldBeNil)
+
+		txHash := "3E4Jy7w8b8f6X6Uf8Zr4XWZg"
+		transaction, err := client.GetTransaction(txHash)
+		So(err, ShouldBeNil)
+
+		So(transaction, ShouldNotBeNil)
+		fmt.Println("transaction:", transaction)
+	})
+}
