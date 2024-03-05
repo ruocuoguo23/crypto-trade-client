@@ -13,8 +13,12 @@ func TestSendTransaction(t *testing.T) {
 		client, err := NewSolClient(context.Background(), keyPath)
 		So(err, ShouldBeNil)
 
-		// test programID of hello world
+		// test programID of hello world on localnet
+		//programID := "FyCJ7kDf2RbfoXpuCKT1KhKQxhgbgb9Wj9esDYrm1K6h"
+
+		// test programID of hello world on devnet
 		programID := "FyCJ7kDf2RbfoXpuCKT1KhKQxhgbgb9Wj9esDYrm1K6h"
+
 		txHash, err := client.SendTransaction(programID)
 		So(err, ShouldBeNil)
 
@@ -43,11 +47,20 @@ func TestGetTransaction(t *testing.T) {
 		client, err := NewSolClient(context.Background(), keyPath)
 		So(err, ShouldBeNil)
 
-		txHash := "3E4Jy7w8b8f6X6Uf8Zr4XWZg"
+		// txHash of hello world on devnet
+		txHash := "52qmN4Jy3hqDw7e4JPHczcsNjPUiMUrzevxi7Ta8mTk2x7nbvyaytxMczKXAbPTdC81DxkgEHLaT1SduXKUgxunW"
 		transaction, err := client.GetTransaction(txHash)
 		So(err, ShouldBeNil)
 
 		So(transaction, ShouldNotBeNil)
 		fmt.Println("transaction:", transaction)
+
+		// print transaction log for debugging
+		for _, message := range transaction.Meta.LogMessages {
+			fmt.Println("message: ", message)
+		}
+
+		// print transaction fee for debugging
+		fmt.Println("fee:", transaction.Meta.Fee)
 	})
 }

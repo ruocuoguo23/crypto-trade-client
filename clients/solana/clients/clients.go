@@ -26,7 +26,8 @@ func NewSolClient(ctx context.Context, keyPath string) (*SolClient, error) {
 
 	// Create an RPC client instance
 	// temp using local network endpoint
-	c := client.NewClient(rpc.LocalnetRPCEndpoint)
+	//c := client.NewClient(rpc.LocalnetRPCEndpoint)
+	c := client.NewClient(rpc.DevnetRPCEndpoint)
 
 	return &SolClient{
 		ctx:     ctx,
@@ -84,9 +85,11 @@ func (c *SolClient) SendTransaction(programID string) (string, error) {
 }
 
 func (c *SolClient) GetTransaction(txHash string) (*client.Transaction, error) {
-	response, err := c.client.GetTransactionWithConfig(c.ctx, txHash, client.GetTransactionConfig{
-		Commitment: rpc.CommitmentFinalized,
-	})
+	//response, err := c.client.GetTransactionWithConfig(c.ctx, txHash, client.GetTransactionConfig{
+	//	Commitment: rpc.CommitmentFinalized,
+	//})
+
+	response, err := c.client.GetTransaction(c.ctx, txHash)
 	if err != nil {
 		return nil, err
 	}
