@@ -1,4 +1,4 @@
-package clients
+package blocto
 
 import (
 	"context"
@@ -45,7 +45,7 @@ func (c *SolClient) SendTransaction(programID string) (string, error) {
 	// Program ID
 	programPK := common.PublicKeyFromString(programID)
 
-	// Get the most latest blockhash
+	// Get the latest block hash
 	res, err := c.client.GetLatestBlockhash(context.Background())
 	if err != nil {
 		fmt.Println("get latest block hash error", err)
