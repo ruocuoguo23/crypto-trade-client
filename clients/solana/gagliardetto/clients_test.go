@@ -44,26 +44,18 @@ func TestGetBalance(t *testing.T) {
 	})
 }
 
-//func TestGetTransaction(t *testing.T) {
-//	Convey("Test GetTransaction", t, func() {
-//		keyPath := "/Users/jeff.wu/.config/solana/id.json"
-//		client, err := NewSolClient(context.Background(), keyPath)
-//		So(err, ShouldBeNil)
-//
-//		// txHash of hello world on devnet
-//		txHash := "52qmN4Jy3hqDw7e4JPHczcsNjPUiMUrzevxi7Ta8mTk2x7nbvyaytxMczKXAbPTdC81DxkgEHLaT1SduXKUgxunW"
-//		transaction, err := client.GetTransaction(txHash)
-//		So(err, ShouldBeNil)
-//
-//		So(transaction, ShouldNotBeNil)
-//		fmt.Println("transaction:", transaction)
-//
-//		// print transaction log for debugging
-//		for _, message := range transaction.Meta.LogMessages {
-//			fmt.Println("message: ", message)
-//		}
-//
-//		// print transaction fee for debugging
-//		fmt.Println("fee:", transaction.Meta.Fee)
-//	})
-//}
+func TestGetTransaction(t *testing.T) {
+	Convey("Test GetTransaction", t, func() {
+		keyPath := "/Users/jeff.wu/.config/solana/id.json"
+		client, err := NewSolClient(context.Background(), keyPath)
+		So(err, ShouldBeNil)
+
+		// txHash of hello world on devnet
+		txHash := "3DxqoU9JvXje49zVZZYSwD1f8hGyZaikP1o3ZPNmgCrrKai1yFZ5oXQbzQMN7p8QTFzKdAaiU9uYGm1fX4G1xkAz"
+		transaction, err := client.GetTransaction(txHash)
+		So(err, ShouldBeNil)
+
+		So(transaction, ShouldNotBeNil)
+		fmt.Println("transaction:", transaction)
+	})
+}

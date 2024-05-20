@@ -68,8 +68,9 @@ func (c *SolClient) SendTransaction(instruction solana.Instruction) (string, err
 	return sig.String(), nil
 }
 
-func (c *SolClient) GetTransaction(txHash solana.Signature) (*solana.Transaction, error) {
-	out, err := c.client.GetTransaction(c.ctx, txHash, nil)
+func (c *SolClient) GetTransaction(txHash string) (*solana.Transaction, error) {
+	txSig := solana.MustSignatureFromBase58(txHash)
+	out, err := c.client.GetTransaction(c.ctx, txSig, nil)
 	if err != nil {
 		return nil, err
 	}

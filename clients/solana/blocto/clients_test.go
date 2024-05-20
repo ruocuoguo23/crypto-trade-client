@@ -48,7 +48,7 @@ func TestGetTransaction(t *testing.T) {
 		So(err, ShouldBeNil)
 
 		// txHash of hello world on devnet
-		txHash := "52qmN4Jy3hqDw7e4JPHczcsNjPUiMUrzevxi7Ta8mTk2x7nbvyaytxMczKXAbPTdC81DxkgEHLaT1SduXKUgxunW"
+		txHash := "3DxqoU9JvXje49zVZZYSwD1f8hGyZaikP1o3ZPNmgCrrKai1yFZ5oXQbzQMN7p8QTFzKdAaiU9uYGm1fX4G1xkAz"
 		transaction, err := client.GetTransaction(txHash)
 		So(err, ShouldBeNil)
 
