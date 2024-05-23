@@ -3,6 +3,7 @@ package middleware
 import (
 	"crypto-trade-client/common/web"
 	"github.com/gin-gonic/gin"
+	"github.com/hashicorp/go-hclog"
 )
 
 func JSONAppErrorReporter() gin.HandlerFunc {

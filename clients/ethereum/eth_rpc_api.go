@@ -1,6 +1,7 @@
 package ethereum
 
 import (
+	"crypto-trade-client/common/rpc"
 	"encoding/json"
 	"fmt"
 	"github.com/ethereum/go-ethereum/common/hexutil"

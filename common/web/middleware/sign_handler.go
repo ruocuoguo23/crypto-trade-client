@@ -5,6 +5,7 @@ import (
 	"crypto-trade-client/common/web"
 	"crypto-trade-client/common/web/sign"
 	"github.com/gin-gonic/gin"
+	"github.com/hashicorp/go-hclog"
 	"io"
 )
 

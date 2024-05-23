@@ -5,6 +5,7 @@ import (
 	"crypto-trade-client/common/web"
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/go-hclog"
 	"io"
 	"io/ioutil"
 	"net/http"
