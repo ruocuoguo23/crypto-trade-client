@@ -95,6 +95,18 @@ type Block struct {
 	Transactions []Transaction `json:"transactions"`
 }
 
+// BlockHeader contains limited data (as needed for indexing) from backend block header
+type BlockHeader struct {
+	Hash          string `json:"hash"`
+	Prev          string `json:"previousblockhash"`
+	Next          string `json:"nextblockhash"`
+	Height        int64  `json:"height"`
+	Confirmations int64  `json:"confirmations"` // it is required to prevent softfork
+	Size          int    `json:"size"`
+	BaseFeePerGas int64  `json:"gas"`
+	Time          int64  `json:"time,omitempty"`
+}
+
 type Transfer struct {
 	ChainId              *big.Int
 	Nonce                uint64
