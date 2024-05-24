@@ -18,6 +18,7 @@ func NewEthClient(endpoint string, chainName string) (*EthClient, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return &EthClient{ethRpc: &eRPC}, nil
 }
 
@@ -52,6 +53,14 @@ func (ec *EthClient) GetBlock(hash string, height int64) (*ethereum.Block, error
 	return &block, nil
 }
 
+func (ec *EthClient) GetLatestBlockHeight() (int64, error) {
+	bh, err := ec.bestBlockHeader()
+	if err != nil {
+		return 0, err
+	}
+	return bh.Height, nil
+}
+
 func (ec *EthClient) bestBlockHeader() (ethereum.BlockHeader, error) {
 	block, err := ec.ethRpc.GetBlockByNumber(ethereum.Latest, false)
 	if err != nil {
@@ -63,5 +72,6 @@ func (ec *EthClient) bestBlockHeader() (ethereum.BlockHeader, error) {
 		Height: int64(block.Number),
 		Time:   int64(block.Time),
 	}
+
 	return bh, nil
 }
