@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto-trade-client/clients/ethereum"
 	"crypto-trade-client/common/rpc"
+	"crypto-trade-client/common/stringutil"
 )
 
 type EthClient struct {
@@ -18,6 +19,37 @@ func NewEthClient(endpoint string, chainName string) (*EthClient, error) {
 		return nil, err
 	}
 	return &EthClient{ethRpc: &eRPC}, nil
+}
+
+func (ec *EthClient) GetBlock(hash string, height int64) (*ethereum.Block, error) {
+	bb, err := ec.bestBlockHeader()
+	if err != nil {
+		return nil, err
+	}
+	if height > bb.Height {
+		return nil, ethereum.ErrBlockNotFound
+	}
+
+	var block ethereum.Block
+	if hash != "" {
+		block, err = ec.ethRpc.GetBlockByHash(hash, true)
+		if err != nil {
+			return nil, err
+		}
+		if stringutil.IsBlank(block.Hash) {
+			return nil, ethereum.ErrBlockNotFound
+		}
+	} else {
+		if height > bb.Height {
+			return nil, ethereum.ErrBlockNotFound
+		}
+		block, err = ec.ethRpc.GetBlockByNumber(ethereum.EthBlockNumArg(height), true)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &block, nil
 }
 
 func (ec *EthClient) bestBlockHeader() (ethereum.BlockHeader, error) {

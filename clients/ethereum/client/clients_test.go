@@ -14,5 +14,10 @@ func TestEthClient_GetBlock(t *testing.T) {
 		bh, err := client.bestBlockHeader()
 		So(err, ShouldBeNil)
 		So(bh.Height, ShouldBeGreaterThan, 0)
+
+		blockHeight := 120466998
+		block, err := client.GetBlock("", int64(blockHeight))
+		So(err, ShouldBeNil)
+		So(block.Number, ShouldEqual, int64(blockHeight))
 	})
 }

@@ -2,9 +2,20 @@ package ethereum
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethcoretypes "github.com/ethereum/go-ethereum/core/types"
 	"math/big"
+)
+
+var (
+	// ErrBlockNotFound is returned when block is not found
+	// either unknown hash or too high height
+	// can be returned from GetBlockHash, GetBlockHeader, GetBlock
+	ErrBlockNotFound = errors.New("block not found")
+
+	// ErrTxNotFound is returned if transaction was not found
+	ErrTxNotFound = errors.New("tx not found")
 )
 
 type Transaction struct {
@@ -177,16 +188,4 @@ var chains = []EvmChainInfo{
 		ShortName: "oeth",
 		ChainId:   10,
 	},
-}
-
-func Chains() []EvmChainInfo {
-	return chains
-}
-
-func ChainMap() map[uint64]EvmChainInfo {
-	out := make(map[uint64]EvmChainInfo)
-	for _, chain := range chains {
-		out[chain.ChainId] = chain
-	}
-	return out
 }
