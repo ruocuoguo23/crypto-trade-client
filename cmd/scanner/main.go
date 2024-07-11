@@ -2,15 +2,49 @@ package main
 
 import (
 	"crypto-trade-client/clients/optimism/client"
+	"crypto-trade-client/common/config"
 	"fmt"
+	"github.com/spf13/cobra"
 	"time"
 )
 
 func main() {
-	endpoint := "https://mainnet.optimism.io"
-	ethClient, err := client.NewOpClient(endpoint)
+	var configPath string
+
+	var rootCmd = &cobra.Command{
+		Use:   "scanner",
+		Short: "Scanner is a tool for scanning things",
+		Run: func(cmd *cobra.Command, args []string) {
+			scanner(configPath)
+		},
+	}
+
+	rootCmd.Flags().StringVarP(&configPath, "config", "c", "", "path to the configuration file")
+	_ = rootCmd.MarkFlagRequired("config")
+
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+	}
+}
+
+func scanner(configPath string) {
+	// load chainConfig
+	chainConfig, err := config.LoadConfig(configPath)
 	if err != nil {
-		fmt.Printf("Error creating Ethereum client: %v\n", err)
+		fmt.Printf("Error loading chainConfig: %v\n", err)
+		return
+	}
+
+	// from the chainConfig, get the chain URL
+	chain, ok := chainConfig["optimism"]
+	if !ok {
+		fmt.Println("Optimism chain not found in chainConfig")
+		return
+	}
+
+	ethClient, err := client.NewOpClient(chain.URL)
+	if err != nil {
+		fmt.Printf("Error creating Optimism client: %v\n", err)
 		return
 	}
 
