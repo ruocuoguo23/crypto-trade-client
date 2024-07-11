@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestOpClient_GetBlock(t *testing.T) {
+func TestOptimismClient_GetBlock(t *testing.T) {
 	Convey("Test GetBlock", t, func() {
 		endpoint := "https://practical-green-butterfly.optimism.quiknode.pro/d02f8d49bde8ccbbcec3c9a8962646db998ade83"
 		client, err := NewOpClient(endpoint)
@@ -15,5 +15,17 @@ func TestOpClient_GetBlock(t *testing.T) {
 		block, err := client.GetBlock("", int64(blockHeight))
 		So(err, ShouldBeNil)
 		So(block.Number, ShouldEqual, int64(blockHeight))
+	})
+}
+
+func TestOptimismClient_GetLatestBlockHeight(t *testing.T) {
+	Convey("Test GetLatestBlockHeight", t, func() {
+		endpoint := "https://practical-green-butterfly.optimism.quiknode.pro/d02f8d49bde8ccbbcec3c9a8962646db998ade83"
+		client, err := NewOpClient(endpoint)
+		So(err, ShouldBeNil)
+
+		height, err := client.GetLatestBlockHeight()
+		So(err, ShouldBeNil)
+		So(height, ShouldBeGreaterThan, int64(0))
 	})
 }
