@@ -2,7 +2,6 @@ package client
 
 import (
 	"crypto/ecdsa"
-	"fmt"
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
@@ -21,10 +20,7 @@ func NewEthSigner(hexKey string) (*EthSigner, error) {
 func (s *EthSigner) SignTransaction(tx interface{}) ([]byte, error) {
 	// Implement Ethereum transaction signing logic here
 	// For demonstration purposes, we assume tx is a byte slice
-	data, ok := tx.([]byte)
-	if !ok {
-		return nil, fmt.Errorf("invalid transaction type")
-	}
+	data := tx.([]byte)
 	signature, err := crypto.Sign(data, s.privateKey)
 	if err != nil {
 		return nil, err
