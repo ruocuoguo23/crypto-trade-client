@@ -74,6 +74,5 @@ func main() {
 	if err != nil {
 		log.Fatalln("cannot find tx:", err.Error())
 	}
-	log.Printf("tx hash: %s %s\n", hex.EncodeToString(tx.Hash), hex.EncodeToString(acc.LastTxHash)))
-
+	log.Printf("tx hash: %s %s\n", hex.EncodeToString(tx.Hash), hex.EncodeToString(acc.LastTxHash))
 }

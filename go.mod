@@ -5,20 +5,19 @@ go 1.21
 toolchain go1.21.3
 
 require (
-	github.com/aws/aws-sdk-go v1.53.4
 	github.com/blocto/solana-go-sdk v1.27.0
 	github.com/ethereum/go-ethereum v1.14.3
 	github.com/gagliardetto/solana-go v1.10.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/go-cmp v0.5.8
 	github.com/hashicorp/go-hclog v1.6.3
-	github.com/mitchellh/mapstructure v1.4.1
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/stretchr/testify v1.9.0
 	github.com/xssnick/tonutils-go v1.9.8
 	go.uber.org/atomic v1.7.0
 	go.uber.org/goleak v1.1.11
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -51,7 +50,6 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/holiman/uint256 v1.2.4 // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 	github.com/klauspost/compress v1.15.15 // indirect
@@ -88,6 +86,5 @@ require (
 	golang.org/x/text v0.15.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect
 )

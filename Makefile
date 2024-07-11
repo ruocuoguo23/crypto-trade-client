@@ -7,13 +7,20 @@ GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 
-BINARY_NAME=mybinary
+BINARY_DIR=bin
 
-all: test build
+# Find all main.go files in the cmd directory
+PLUGIN_FILES := $(shell find cmd -name 'main.go')
 
+# Generate binary names based on the directory structure
+PLUGINS := $(addprefix $(BINARY_DIR)/,$(PLUGIN_FILES:cmd/%/main.go=%))
 
-build:
-	$(GOBUILD) -o $(BINARY_NAME) -v
+all: build
+
+build: $(PLUGINS)
+
+$(BINARY_DIR)/%: cmd/%/main.go
+	$(GOBUILD) -o $@ $<
 
 
 test:
