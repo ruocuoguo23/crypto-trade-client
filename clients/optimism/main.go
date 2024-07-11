@@ -7,7 +7,10 @@ import (
 )
 
 func main() {
-	endpoint := "https://practical-green-butterfly.optimism.quiknode.pro/d02f8d49bde8ccbbcec3c9a8962646db998ade83"
+	//endpoint := "https://practical-green-butterfly.optimism.quiknode.pro/d02f8d49bde8ccbbcec3c9a8962646db998ade83"
+	endpoint := "http://127.0.0.1:8017"
+	//endpoint := "https://rpc.ankr.com/optimism"
+	//endpoint := "https://mainnet.optimism.io"
 	ethClient, err := client.NewOpClient(endpoint)
 	if err != nil {
 		fmt.Printf("Error creating Ethereum client: %v\n", err)
