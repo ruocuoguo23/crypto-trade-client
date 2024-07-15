@@ -19,7 +19,7 @@ func NewEthSigner(hexKey string) (*EthSigner, error) {
 
 func (s *EthSigner) SignTransaction(tx interface{}) ([]byte, error) {
 	// Implement Ethereum transaction signing logic here
-	// For demonstration purposes, we assume tx is a byte slice
+	// For demonstration purposes; we assume tx is a byte slice
 	data := tx.([]byte)
 	signature, err := crypto.Sign(data, s.privateKey)
 	if err != nil {

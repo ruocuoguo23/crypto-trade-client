@@ -131,11 +131,6 @@ func (ec *EthClient) bestBlockHeader() (ethereum.BlockHeader, error) {
 	return bh, nil
 }
 
-func (ec *EthClient) GetTransactionCount(address string) (int64, error) {
-	nonce, err := ec.ethRpc.GetTransactionCount(address, ethereum.Latest)
-	return int64(nonce), err
-}
-
 func (ec *EthClient) GetChainID(ctx context.Context) (*big.Int, error) {
 	result, err := ec.ethClient.ChainID(ctx)
 	return result, err
