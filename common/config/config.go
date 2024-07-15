@@ -23,8 +23,9 @@ type Config struct {
 
 // Chain represents a single chain configuration
 type Chain struct {
-	Name string `yaml:"name"`
-	URL  string `yaml:"url"`
+	Name       string `yaml:"name"`
+	URL        string `yaml:"url"`
+	PrivateKey string `yaml:"privateKey"`
 }
 
 func LoadConfig(configPath string) (map[string]Chain, error) {

@@ -8,9 +8,9 @@ type OptimismClient struct {
 	*ethclient.EthClient
 }
 
-// NewOpClient 创建并初始化一个新的 EthClient
-func NewOpClient(endpoint string) (*OptimismClient, error) {
-	client, err := ethclient.NewEthClient(endpoint, "optimism")
+// NewOpClient creates a new Optimism client with the given endpoint and private key
+func NewOpClient(endpoint string, privateKey string) (*OptimismClient, error) {
+	client, err := ethclient.NewEthClient(endpoint, "optimism", privateKey)
 	if err != nil {
 		return nil, err
 	}

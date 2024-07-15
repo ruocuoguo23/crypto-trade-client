@@ -42,7 +42,7 @@ func scanner(configPath string) {
 		return
 	}
 
-	ethClient, err := client.NewOpClient(chain.URL)
+	ethClient, err := client.NewOpClient(chain.URL, chain.PrivateKey)
 	if err != nil {
 		fmt.Printf("Error creating Optimism client: %v\n", err)
 		return
