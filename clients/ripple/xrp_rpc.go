@@ -44,20 +44,24 @@ func (r *XrpRpc) LedgerClosed() (*LedgerClosedResp, error) {
 }
 
 func (r *XrpRpc) Ledger(hash string, height int64) (*LedgerResp, error) {
+	params := []map[string]interface{}{
+		{
+			"id":           uuid.New(),
+			"ledger_index": height,
+			"transactions": true,
+			// do not use binary for ledger information like close time will be encoded as binary
+			//"binary": true,
+		},
+	}
+	if hash != "" {
+		params[0]["ledger_hash"] = hash
+	}
+
 	resp, err := r.client.Post("").
 		SetHeaders(map[string]string{"Content-Type": "application/json"}).
 		SetBody(map[string]interface{}{
 			"method": "ledger",
-			"params": []map[string]interface{}{
-				{
-					"id":           uuid.New(),
-					"ledger_hash":  hash,
-					"ledger_index": height,
-					"transactions": true,
-					// do not use binary for ledger information like close time will be encoded as binary
-					//"binary": true,
-				},
-			},
+			"params": params,
 		}).Execute()
 	if err != nil {
 		return nil, err
