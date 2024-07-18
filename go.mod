@@ -10,7 +10,9 @@ require (
 	github.com/gagliardetto/solana-go v1.10.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/go-cmp v0.5.8
+	github.com/google/uuid v1.6.0
 	github.com/hashicorp/go-hclog v1.6.3
+	github.com/rubblelabs/ripple v0.0.0-20240324121851-6816ca31ba51
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/spf13/cobra v1.5.0
 	github.com/stretchr/testify v1.9.0
@@ -51,7 +53,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.20.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/holiman/uint256 v1.2.4 // indirect
