@@ -74,5 +74,19 @@ func pollNewBlocks(xrpClient *ripple.XrpClient, startHeight int64) {
 		fmt.Printf("Retrieved block %d with hash %s\n", currentHeight, block.Result.LedgerHash)
 
 		// get the transactions in the block
+		for _, tx := range block.Result.Ledger.Transactions {
+			// record the request latency
+			start := time.Now()
+			// get the transaction details
+			txResp, err := xrpClient.Tx(tx)
+			if err != nil {
+				fmt.Printf("Error retrieving transaction %s: %v\n", tx, err)
+				continue
+			}
+
+			// print the transaction details
+			fmt.Printf("Retrieved transaction %s with type %s, latency %v\n",
+				tx, txResp.Result.TransactionType, time.Since(start))
+		}
 	}
 }
