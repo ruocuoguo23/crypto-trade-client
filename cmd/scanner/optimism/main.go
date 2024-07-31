@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crypto-trade-client/clients/optimism/client"
+	"crypto-trade-client/clients/optimism"
 	"crypto-trade-client/common/config"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -42,7 +42,7 @@ func scanner(configPath string) {
 		return
 	}
 
-	ethClient, err := client.NewOpClient(chain.URL, chain.PrivateKey)
+	ethClient, err := optimism.NewOpClient(chain.URL, chain.PrivateKey)
 	if err != nil {
 		fmt.Printf("Error creating Optimism client: %v\n", err)
 		return
@@ -61,7 +61,7 @@ func scanner(configPath string) {
 	pollNewBlocks(ethClient, latestBlock)
 }
 
-func pollNewBlocks(optimismClient *client.OptimismClient, startHeight int64) {
+func pollNewBlocks(optimismClient *optimism.OpClient, startHeight int64) {
 	currentHeight := startHeight
 	for {
 		time.Sleep(1 * time.Second)
