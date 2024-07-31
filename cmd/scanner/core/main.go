@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crypto-trade-client/clients/core/client"
+	"crypto-trade-client/clients/core"
 	"crypto-trade-client/common/config"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -42,7 +42,7 @@ func scanner(configPath string) {
 		return
 	}
 
-	coreClient, err := client.NewCoreClient(chain.URL, chain.PrivateKey)
+	coreClient, err := core.NewCoreClient(chain.URL, chain.PrivateKey)
 	if err != nil {
 		fmt.Printf("Error creating Core client: %v\n", err)
 		return
@@ -61,7 +61,7 @@ func scanner(configPath string) {
 	pollNewBlocks(coreClient, latestBlock)
 }
 
-func pollNewBlocks(optimismClient *client.CoreClient, startHeight int64) {
+func pollNewBlocks(optimismClient *core.CoreClient, startHeight int64) {
 	currentHeight := startHeight
 	for {
 		time.Sleep(1 * time.Second)

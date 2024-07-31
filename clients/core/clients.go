@@ -1,4 +1,4 @@
-package client
+package core
 
 import (
 	ethclient "crypto-trade-client/clients/ethereum/client"
