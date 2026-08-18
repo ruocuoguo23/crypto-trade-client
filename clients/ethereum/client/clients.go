@@ -144,7 +144,17 @@ func (ec *EthClient) SuggestGasPrice(ctx context.Context) (*big.Int, error) {
 	return ec.ethClient.SuggestGasPrice(ctx)
 }
 
+func (ec *EthClient) SignerAddress() (common.Address, error) {
+	if ec.signer == nil {
+		return common.Address{}, errors.New("ethereum client has no signer")
+	}
+	return ec.signer.PublicAddress, nil
+}
+
 func (ec *EthClient) _getSinnerPrivateKey(signer common.Address) (*ecdsa.PrivateKey, error) {
+	if ec.signer == nil {
+		return nil, errors.New("ethereum client has no signer")
+	}
 	if ec.signer.PublicAddress != signer {
 		return nil, errors.New("signer address does not match")
 	}
@@ -153,7 +163,17 @@ func (ec *EthClient) _getSinnerPrivateKey(signer common.Address) (*ecdsa.Private
 
 // Transfer sends amount of ether or token to the given address
 func (ec *EthClient) Transfer(signer common.Address, to common.Address, value *big.Int) (common.Hash, error) {
-	ctx := context.Background()
+	return ec.TransferContext(context.Background(), signer, to, value)
+}
+
+// TransferContext sends native ether using the configured signer.
+func (ec *EthClient) TransferContext(ctx context.Context, signer common.Address, to common.Address, value *big.Int) (common.Hash, error) {
+	if value == nil || value.Sign() <= 0 {
+		return common.Hash{}, errors.New("transfer value must be greater than zero")
+	}
+	if err := ctx.Err(); err != nil {
+		return common.Hash{}, err
+	}
 
 	msgSignerPk, err := ec._getSinnerPrivateKey(signer)
 	if err != nil {

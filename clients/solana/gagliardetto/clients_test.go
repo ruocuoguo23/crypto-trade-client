@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	. "github.com/smartystreets/goconvey/convey"
+	"os"
 	"testing"
 )
 
@@ -31,8 +32,11 @@ import (
 //}
 
 func TestGetBalance(t *testing.T) {
+	keyPath := os.Getenv("SOLANA_KEY_PATH")
+	if keyPath == "" {
+		t.Skip("set SOLANA_KEY_PATH to run the Solana integration test")
+	}
 	Convey("Test GetBalance", t, func() {
-		keyPath := "/Users/jeff.wu/.config/solana/id.json"
 		client, err := NewSolClient(context.Background(), keyPath)
 		So(err, ShouldBeNil)
 
@@ -45,8 +49,11 @@ func TestGetBalance(t *testing.T) {
 }
 
 func TestGetTransaction(t *testing.T) {
+	keyPath := os.Getenv("SOLANA_KEY_PATH")
+	if keyPath == "" {
+		t.Skip("set SOLANA_KEY_PATH to run the Solana integration test")
+	}
 	Convey("Test GetTransaction", t, func() {
-		keyPath := "/Users/jeff.wu/.config/solana/id.json"
 		client, err := NewSolClient(context.Background(), keyPath)
 		So(err, ShouldBeNil)
 

@@ -23,9 +23,21 @@ type Config struct {
 
 // Chain represents a single chain configuration
 type Chain struct {
-	Name       string `yaml:"name"`
-	URL        string `yaml:"url"`
-	PrivateKey string `yaml:"privateKey"`
+	Name          string `yaml:"name"`
+	URL           string `yaml:"url"`
+	PrivateKey    string `yaml:"privateKey"`
+	ChainID       string `yaml:"chainID"`
+	KeyPath       string `yaml:"keyPath"`
+	Mnemonic      string `yaml:"mnemonic"`
+	TLSEnabled    bool   `yaml:"tlsEnabled"`
+	GasLimit      uint64 `yaml:"gasLimit"`
+	FeeUatom      string `yaml:"feeUatom"`
+	RPCUser       string `yaml:"rpcUser"`
+	RPCPassword   string `yaml:"rpcPassword"`
+	Wallet        string `yaml:"wallet"`
+	Network       string `yaml:"network"`
+	FromAddress   string `yaml:"fromAddress"`
+	ConfirmTarget int64  `yaml:"confirmTarget"`
 }
 
 func LoadConfig(configPath string) (map[string]Chain, error) {

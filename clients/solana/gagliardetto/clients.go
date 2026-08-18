@@ -2,7 +2,10 @@ package gagliardetto
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"github.com/gagliardetto/solana-go"
+	"github.com/gagliardetto/solana-go/programs/system"
 	"github.com/gagliardetto/solana-go/rpc"
 )
 
@@ -14,13 +17,19 @@ type SolClient struct {
 }
 
 func NewSolClient(ctx context.Context, keyPath string) (*SolClient, error) {
+	return NewSolClientWithEndpoint(ctx, rpc.DevNet_RPC, keyPath)
+}
+
+func NewSolClientWithEndpoint(ctx context.Context, endpoint string, keyPath string) (*SolClient, error) {
+	if endpoint == "" {
+		return nil, errors.New("solana RPC endpoint is required")
+	}
 	account, err := loadWallet(keyPath)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("load solana wallet: %w", err)
 	}
 
-	// Create an RPC client instance
-	c := rpc.New(rpc.DevNet_RPC)
+	c := rpc.New(endpoint)
 
 	return &SolClient{
 		ctx:     ctx,
@@ -34,18 +43,31 @@ func (c *SolClient) GetWallet() *solana.Wallet {
 	return c.account
 }
 
-func (c *SolClient) SendTransaction(instruction solana.Instruction) (string, error) {
-	recentBlockHash, err := c.client.GetRecentBlockhash(c.ctx, rpc.CommitmentFinalized)
+func (c *SolClient) Address() solana.PublicKey {
+	return c.account.PublicKey()
+}
+
+func AddressFromKeyFile(keyPath string) (solana.PublicKey, error) {
+	wallet, err := loadWallet(keyPath)
 	if err != nil {
-		return "", err
+		return solana.PublicKey{}, fmt.Errorf("load solana wallet: %w", err)
+	}
+	return wallet.PublicKey(), nil
+}
+
+func (c *SolClient) SendTransaction(instruction solana.Instruction) (string, error) {
+	recentBlockHash, err := c.client.GetLatestBlockhash(c.ctx, rpc.CommitmentFinalized)
+	if err != nil {
+		return "", fmt.Errorf("get latest solana blockhash: %w", err)
 	}
 
 	tx, err := solana.NewTransaction(
 		[]solana.Instruction{instruction},
 		recentBlockHash.Value.Blockhash,
+		solana.TransactionPayer(c.account.PublicKey()),
 	)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("build solana transaction: %w", err)
 	}
 
 	_, err = tx.Sign(
@@ -57,15 +79,31 @@ func (c *SolClient) SendTransaction(instruction solana.Instruction) (string, err
 		},
 	)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("sign solana transaction: %w", err)
 	}
 
 	sig, err := c.client.SendTransaction(c.ctx, tx)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("broadcast solana transaction: %w", err)
 	}
 
 	return sig.String(), nil
+}
+
+func (c *SolClient) Transfer(toAddress string, lamports uint64) (string, error) {
+	if lamports == 0 {
+		return "", errors.New("solana amount must be greater than zero")
+	}
+	recipient, err := solana.PublicKeyFromBase58(toAddress)
+	if err != nil {
+		return "", fmt.Errorf("invalid solana recipient: %w", err)
+	}
+	instruction := system.NewTransferInstruction(
+		lamports,
+		c.account.PublicKey(),
+		recipient,
+	).Build()
+	return c.SendTransaction(instruction)
 }
 
 func (c *SolClient) GetTransaction(txHash string) (*solana.Transaction, error) {
